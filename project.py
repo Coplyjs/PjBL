@@ -37,6 +37,11 @@ import numpy as np
 # repetir o processo, testar diferentes valores e observar como as mudanças
 # afetam o equilíbrio de mercado.
 
+# == Varíaveis Globais ==
+
+antiga = [20,2,2,1]
+atual = [5,10,15,20]
+
 # == INICÍO DO CÓDIGO ==
 
 # Função oferta (Função linear, y=ax+b)
@@ -56,3 +61,89 @@ def demanda(a, b, p):
     return a - b*p
 
 # Função Preço de equilíbrio (Função que encontra ponto onde oferta e demanda se encontram)
+
+def pontoDeEquilibrio(a,b,c,d):
+    return (a-c)/(b+d)
+
+# == Mudar todos os valores ==
+
+def opcao1():
+    print("Abacate")
+
+# == Mudar curva de oferta ==
+
+def opcao2():
+    print("Abacate")
+
+# == Mudar curva de demanda ==
+
+def opcao3():
+    print("Abacate")
+
+# == Plotar gráfico ==
+
+def plotar():
+    p = np.linspace(0, 20, 100)
+
+    a = antiga[0]
+    b = antiga[1]
+    c = antiga[2]
+    d = antiga[3]
+
+    qd = demanda(a, b, p)
+    qs = oferta(c, d, p)
+
+    # ponto de equilíbrio
+    pe = pontoDeEquilibrio(a, b, c, d)
+    qe = oferta(c, d, pe)
+
+    plt.figure(figsize=(8, 5))
+
+    # gráfico no padrão econômico (Quantidade no X, Preço no Y)
+    plt.plot(qd, p, label='Demanda', color='blue', linewidth=2)
+    plt.plot(qs, p, label='Oferta', color='red', linewidth=2)
+
+    # ponto de equilíbrio
+    plt.scatter(qe, pe, color='black')
+    plt.text(qe, pe, f' E({qe:.2f}, {pe:.2f})')
+
+    plt.title('Oferta e Demanda')
+    plt.xlabel('Quantidade')
+    plt.ylabel('Preço')
+    plt.legend()
+
+    plt.show()
+
+# == Loop do Menu ==
+
+def loopMenu():
+
+    while(True):
+        opcao = input("\n 1 - Mudar todos valores\n 2 - Mudar curva de oferta\n 3 - Mudar curva de demanda\n 4 - Plotar gráfico\n 5 - Sair\n : ")
+
+        if(opcao == "1"):
+
+            opcao1()
+
+        elif(opcao == "2"):
+
+            opcao2()
+
+        elif(opcao == "3"):
+
+            opcao3()
+
+        elif(opcao == "4"):
+
+            plotar()
+
+        elif(opcao == "5"):
+
+            break
+
+        else:
+            print("Digite uma opção válida!")
+
+loopMenu()
+
+
