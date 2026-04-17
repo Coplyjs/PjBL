@@ -1,149 +1,168 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# == TO-DO LIST ==
-# Funções oferta, demanda e ponto de equilíbrio
-# Menu
-# Comandos
-# Plotar funções no gráfico
-# ================
+# == VARIÁVEIS GLOBAIS ==
 
-# == PASSO A PASSO DO CÓDIGO ==
+antiga = [20, 2, 2, 1]
+atual = None
 
-# O objetivo do nosso código é facilitar o entendimento das curvas de oferta, demanda,
-# e ponto de equilíbrio. O programa irá calcular e exibir graficamente duas curvas de
-# oferta e duas curvas de demanda, representando diferentes cenários.
-
-# Primeiro, definimos funções matemáticas para representar a oferta e a demanda,
-# ambas como funções lineares dependentes do preço.
-
-# Em seguida, criamos uma função que calcula o ponto de equilíbrio, ou seja,
-# o ponto onde a quantidade ofertada é igual à quantidade demandada.
-
-# Depois, o programa irá permitir que o usuário insira ou altere os valores
-# das variáveis (como interceptos e inclinações das curvas), possibilitando
-# simular mudanças no mercado.
-
-# Com base nesses valores, geramos um conjunto de preços e calculamos as
-# quantidades ofertadas e demandadas correspondentes para cada curva.
-
-# Em seguida, utilizamos a biblioteca matplotlib para plotar os gráficos das
-# curvas de oferta e demanda, permitindo visualizar seus deslocamentos.
-
-# Também destacamos no gráfico os pontos de equilíbrio de cada cenário,
-# facilitando a comparação entre eles.
-
-# Por fim, o programa pode incluir um menu interativo que permite ao usuário
-# repetir o processo, testar diferentes valores e observar como as mudanças
-# afetam o equilíbrio de mercado.
-
-# == Varíaveis Globais ==
-
-antiga = [20,2,2,1]
-atual = [5,10,15,20]
-
-# == INICÍO DO CÓDIGO ==
-
-# Função oferta (Função linear, y=ax+b)
-# c = Constante onde a função intercepta o eixo Y
-# d = Inclinação da curva de oferta (Positiva)
-# p = Preço do bem
+# == FUNÇÕES ==
 
 def oferta(c, d, p):
-    return c + d*p
-
-# Função demanda (Função linear, y=ax+b)
-# a = Quantidade máxima demandada quando o preço é zero
-# b = Inclinação da curva de demanda (Negativa)
-# p = Preço do bem
+    return c + d * p
 
 def demanda(a, b, p):
-    return a - b*p
+    return a - b * p
 
-# Função Preço de equilíbrio (Função que encontra ponto onde oferta e demanda se encontram)
+def pontoDeEquilibrio(a, b, c, d):
+    return (a - c) / (b + d)
 
-def pontoDeEquilibrio(a,b,c,d):
-    return (a-c)/(b+d)
-
-# == Mudar todos os valores ==
+# == OPÇÕES ==
 
 def opcao1():
-    print("Abacate")
+    global antiga, atual
 
-# == Mudar curva de oferta ==
+    a = float(input("Digite o valor de A: "))
+    b = float(input("Digite o valor de B: "))
+    c = float(input("Digite o valor de C: "))
+    d = float(input("Digite o valor de D: "))
+
+    if atual is not None:
+        antiga = atual.copy()
+
+    atual = [a, b, c, d]
+
 
 def opcao2():
-    print("Abacate")
+    global antiga, atual
 
-# == Mudar curva de demanda ==
+    if atual is None:
+        atual = antiga.copy()
+
+    c = float(input("Digite o valor de C: "))
+    d = float(input("Digite o valor de D: "))
+
+    antiga = atual.copy()
+
+    atual[2] = c
+    atual[3] = d
+
 
 def opcao3():
-    print("Abacate")
+    global antiga, atual
 
-# == Plotar gráfico ==
+    if atual is None:
+        atual = antiga.copy()
+
+    a = float(input("Digite o valor de A: "))
+    b = float(input("Digite o valor de B: "))
+
+    antiga = atual.copy()
+
+    atual[0] = a
+    atual[1] = b
+
+
+# == GRÁFICO ==
 
 def plotar():
+    global antiga, atual
+
     p = np.linspace(0, 20, 100)
 
-    a = antiga[0]
-    b = antiga[1]
-    c = antiga[2]
-    d = antiga[3]
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    fig.patch.set_facecolor('#F9FAFB')
+    ax.set_facecolor('#F9FAFB')
+
+    # ======================
+    # ANTIGO (quente)
+    # ======================
+    a, b, c, d = antiga
 
     qd = demanda(a, b, p)
     qs = oferta(c, d, p)
 
-    # ponto de equilíbrio
     pe = pontoDeEquilibrio(a, b, c, d)
     qe = oferta(c, d, pe)
 
-    plt.figure(figsize=(8, 5))
+    ax.plot(qd, p, label='Demanda (antes)', color='#F97316', linewidth=3)
+    ax.plot(qs, p, label='Oferta (antes)', color='#FF2D95', linewidth=3)
 
-    # gráfico no padrão econômico (Quantidade no X, Preço no Y)
-    plt.plot(qd, p, label='Demanda', color='blue', linewidth=2)
-    plt.plot(qs, p, label='Oferta', color='red', linewidth=2)
+    ax.scatter(qe, pe, color='#111827', s=40, zorder=5)
+    ax.text(qe, pe, f' E₀({qe:.1f}, {pe:.1f})', color='#111827')
 
-    # ponto de equilíbrio
-    plt.scatter(qe, pe, color='black')
-    plt.text(qe, pe, f' E({qe:.2f}, {pe:.2f})')
+    # ======================
+    # NOVO (frio)
+    # ======================
+    if atual is not None:
+        a, b, c, d = atual
 
-    plt.title('Oferta e Demanda')
-    plt.xlabel('Quantidade')
-    plt.ylabel('Preço')
-    plt.legend()
+        qd = demanda(a, b, p)
+        qs = oferta(c, d, p)
 
+        pe = pontoDeEquilibrio(a, b, c, d)
+        qe = oferta(c, d, pe)
+
+        ax.plot(qd, p, '--', label='Demanda (depois)', color='#8172B3', linewidth=3)
+        ax.plot(qs, p, '--', label='Oferta (depois)', color='#55A868', linewidth=3)
+
+        # 🌟 ponto de equilíbrio novo em VERDE
+        ax.scatter(qe, pe, color='#111827', s=40, zorder=5)
+        ax.text(qe, pe, f' E₁({qe:.1f}, {pe:.1f})', color='#111827')
+
+    # ======================
+    # TOQUE EXTRA VISUAL
+    # ======================
+
+    ax.set_title('Oferta e Demanda', fontsize=16, weight='bold', color='#111827')
+    ax.set_xlabel('Quantidade', color='#111827')
+    ax.set_ylabel('Preço', color='#111827')
+
+    ax.grid(True, color='#E5E7EB', linewidth=0.8)
+
+    for spine in ['top', 'right']:
+        ax.spines[spine].set_visible(False)
+
+    ax.spines['left'].set_color('#D1D5DB')
+    ax.spines['bottom'].set_color('#D1D5DB')
+
+    ax.legend(frameon=False)
+
+    plt.tight_layout()
     plt.show()
 
-# == Loop do Menu ==
+
+# == MENU ==
 
 def loopMenu():
+    while True:
+        opcao = input(
+            "\n 1 - Mudar todos valores\n"
+            " 2 - Mudar curva de oferta\n"
+            " 3 - Mudar curva de demanda\n"
+            " 4 - Plotar gráfico\n"
+            " 5 - Sair\n : "
+        )
 
-    while(True):
-        opcao = input("\n 1 - Mudar todos valores\n 2 - Mudar curva de oferta\n 3 - Mudar curva de demanda\n 4 - Plotar gráfico\n 5 - Sair\n : ")
-
-        if(opcao == "1"):
-
+        if opcao == "1":
             opcao1()
 
-        elif(opcao == "2"):
-
+        elif opcao == "2":
             opcao2()
 
-        elif(opcao == "3"):
-
+        elif opcao == "3":
             opcao3()
 
-        elif(opcao == "4"):
-
+        elif opcao == "4":
             plotar()
 
-        elif(opcao == "5"):
-
+        elif opcao == "5":
             break
 
         else:
             print("Digite uma opção válida!")
 
+
+# == EXECUÇÃO ==
 loopMenu()
-
-
