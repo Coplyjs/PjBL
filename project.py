@@ -75,9 +75,6 @@ def plotar():
     fig.patch.set_facecolor('#F9FAFB')
     ax.set_facecolor('#F9FAFB')
 
-    # ======================
-    # ANTIGO (quente)
-    # ======================
     a, b, c, d = antiga
 
     qd = demanda(a, b, p)
@@ -92,9 +89,6 @@ def plotar():
     ax.scatter(qe, pe, color='#111827', s=40, zorder=5)
     ax.text(qe, pe, f' E₀({qe:.1f}, {pe:.1f})', color='#111827')
 
-    # ======================
-    # NOVO (frio)
-    # ======================
     if atual is not None:
         a, b, c, d = atual
 
@@ -107,13 +101,9 @@ def plotar():
         ax.plot(qd, p, '--', label='Demanda (depois)', color='#8172B3', linewidth=3)
         ax.plot(qs, p, '--', label='Oferta (depois)', color='#55A868', linewidth=3)
 
-        # 🌟 ponto de equilíbrio novo em VERDE
         ax.scatter(qe, pe, color='#111827', s=40, zorder=5)
         ax.text(qe, pe, f' E₁({qe:.1f}, {pe:.1f})', color='#111827')
 
-    # ======================
-    # TOQUE EXTRA VISUAL
-    # ======================
 
     ax.set_title('Oferta e Demanda', fontsize=16, weight='bold', color='#111827')
     ax.set_xlabel('Quantidade', color='#111827')
