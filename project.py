@@ -22,10 +22,37 @@ def pontoDeEquilibrio(a, b, c, d):
 def opcao1():
     global antiga, atual
 
-    a = float(input("Digite o valor de A: "))
-    b = float(input("Digite o valor de B: "))
-    c = float(input("Digite o valor de C: "))
-    d = float(input("Digite o valor de D: "))
+    while True:
+        try:
+            a = float(input("Digite o valor de A: "))
+            if a < 0: raise ValueError
+            break
+        except ValueError:
+            print("Digite um número não negativo.")
+
+    while True:
+        try:
+            b = float(input("Digite o valor de B: "))
+            if b < 0: raise ValueError
+            break
+        except ValueError:
+            print("Digite um número não negativo.")
+
+    while True:
+        try:
+            c = float(input("Digite o valor de C: "))
+            if c < 0: raise ValueError
+            break
+        except ValueError:
+            print("Digite um número não negativo.")
+
+    while True:
+        try:
+            d = float(input("Digite o valor de D: "))
+            if d < 0: raise ValueError
+            break
+        except ValueError:
+            print("Digite um número não negativo.")
 
     if atual is not None:
         antiga = atual.copy()
@@ -39,8 +66,21 @@ def opcao2():
     if atual is None:
         atual = antiga.copy()
 
-    c = float(input("Digite o valor de C: "))
-    d = float(input("Digite o valor de D: "))
+    while True:
+        try:
+            c = float(input("Digite o valor de C: "))
+            if c < 0: raise ValueError
+            break
+        except ValueError:
+            print("Digite um número não negativo.")
+
+    while True:
+        try:
+            d = float(input("Digite o valor de D: "))
+            if d < 0: raise ValueError
+            break
+        except ValueError:
+            print("Digite um número não negativo.")
 
     antiga = atual.copy()
 
@@ -54,8 +94,21 @@ def opcao3():
     if atual is None:
         atual = antiga.copy()
 
-    a = float(input("Digite o valor de A: "))
-    b = float(input("Digite o valor de B: "))
+    while True:
+        try:
+            a = float(input("Digite o valor de A: "))
+            if a < 0: raise ValueError
+            break
+        except ValueError:
+            print("Digite um número não negativo.")
+
+    while True:
+        try:
+            b = float(input("Digite o valor de B: "))
+            if b < 0: raise ValueError
+            break
+        except ValueError:
+            print("Digite um número não negativo.")
 
     antiga = atual.copy()
 
@@ -103,7 +156,6 @@ def plotar():
 
         ax.scatter(qe, pe, color='#111827', s=40, zorder=5)
         ax.text(qe, pe, f' E₁({qe:.1f}, {pe:.1f})', color='#111827')
-
 
     ax.set_title('Oferta e Demanda', fontsize=16, weight='bold', color='#111827')
     ax.set_xlabel('Quantidade', color='#111827')
